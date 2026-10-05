@@ -23,6 +23,4 @@ models/*.pkl
 
 # Generated datasets / split data
 results/test_data.csv
-results/train_test_split.csvresults/test_data.csv
-results/test_data.csv
 results/train_test_split.csv
