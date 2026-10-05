@@ -8,7 +8,7 @@ An end-to-end machine learning classification project for predicting credit-card
 
 Develop a machine learning classification system that predicts whether a customer is likely to default on a credit-card payment.
 
-The project compares three classification algorithms required for the task:
+The project compares three classification algorithms:
 
 - Logistic Regression
 - Decision Tree
@@ -16,37 +16,37 @@ The project compares three classification algorithms required for the task:
 
 Performance is evaluated using Accuracy, Precision, Recall, F1-Score, and ROC-AUC.
 
-## 🧭 Approach
+## 🧭 Project Workflow
 
 ```text
-Dataset
-   ↓
+UCI Dataset
+    ↓
 Data Preprocessing
-   ↓
+    ↓
 Exploratory Data Analysis
-   ↓
+    ↓
 Stratified 80/20 Train-Test Split
-   ↓
+    ↓
 Feature Preprocessing
-   ├── Numerical → Median Imputation + Standard Scaling
-   └── Categorical → Most-Frequent Imputation + One-Hot Encoding
-   ↓
+    ├── Numerical → Median Imputation + Standard Scaling
+    └── Categorical → Most-Frequent Imputation + One-Hot Encoding
+    ↓
 Model Training
-   ├── Logistic Regression
-   ├── Decision Tree
-   └── Random Forest
-   ↓
+    ├── Logistic Regression
+    ├── Decision Tree
+    └── Random Forest
+    ↓
 Model Evaluation
-   ├── Accuracy
-   ├── Precision
-   ├── Recall
-   ├── F1-Score
-   └── ROC-AUC
-   ↓
+    ├── Accuracy
+    ├── Precision
+    ├── Recall
+    ├── F1-Score
+    └── ROC-AUC
+    ↓
 Model Comparison
-   ↓
+    ↓
 Best Model Selection
-   ↓
+    ↓
 Credit Default Prediction
 ```
 
@@ -84,11 +84,11 @@ Credit Default Prediction
 - Monthly bill amounts
 - Monthly previous payment amounts
 
-Dataset source:
+### Dataset Source
 
-https://archive.ics.uci.edu/dataset/350/default%2Bof%2Bcredit%2Bcard%2Bclients%2Bdataset
+UCI Machine Learning Repository: https://archive.ics.uci.edu/dataset/350/default%2Bof%2Bcredit%2Bcard%2Bclients%2Bdataset
 
-The raw dataset is not committed to this repository. Download it from the official source and place the Excel file in `data/raw/`.
+The raw dataset is **not committed** to this repository. Download it from the official source and place the Excel file in `data/raw/`.
 
 ## 🧹 Data Preprocessing
 
@@ -101,19 +101,20 @@ The preprocessing stage:
 5. Handles common missing-value markers.
 6. Converts numerical features to numeric data types.
 7. Preserves `sex`, `education`, and `marriage` as categorical variables.
-8. Handles missing numerical values.
-9. Saves the processed dataset locally to `data/processed/credit_data_processed.csv`.
+8. Saves the processed dataset locally to `data/processed/credit_data_processed.csv`.
 
-During model training, preprocessing is applied through a scikit-learn pipeline:
+During model training, preprocessing is handled inside a scikit-learn pipeline:
 
-- Numerical features: median imputation + StandardScaler
-- Categorical features: most-frequent imputation + OneHotEncoder
+- **Numerical features:** median imputation + `StandardScaler`
+- **Categorical features:** most-frequent imputation + `OneHotEncoder`
+
+This keeps preprocessing consistent between training and prediction.
 
 ## 📈 Exploratory Data Analysis
 
 The EDA stage generates:
 
-| Visualization | File |
+| Visualization | Output |
 |---|---|
 | Target distribution | `results/target_distribution.png` |
 | Age distribution | `results/age_distribution.png` |
@@ -122,29 +123,29 @@ The EDA stage generates:
 
 ## 🤖 Machine Learning Models
 
-### Logistic Regression
+### 1. Logistic Regression
 
 A linear classification baseline that estimates the probability of the default class.
 
-### Decision Tree
+### 2. Decision Tree
 
 A tree-based classifier that learns decision rules from feature values.
 
-### Random Forest
+### 3. Random Forest
 
-An ensemble classifier that combines multiple decision trees and is used as the final candidate for the best-performing model.
+An ensemble of decision trees that combines multiple tree predictions. It achieved the strongest overall performance in the current experiment.
+
+All three models use `class_weight="balanced"` to account for the imbalanced target classes.
 
 ## 📏 Evaluation Metrics
 
-The project reports:
+- **Accuracy:** overall proportion of correct predictions.
+- **Precision:** proportion of predicted defaults that are actual defaults.
+- **Recall:** proportion of actual defaults correctly detected.
+- **F1-Score:** harmonic balance between precision and recall.
+- **ROC-AUC:** ability to distinguish default and non-default cases across classification thresholds.
 
-- **Accuracy** — overall proportion of correct predictions.
-- **Precision** — proportion of predicted defaults that are actual defaults.
-- **Recall** — proportion of actual defaults that are correctly detected.
-- **F1-Score** — balance between precision and recall.
-- **ROC-AUC** — ability to distinguish default and non-default cases across thresholds.
-
-Because the target classes are imbalanced, the project considers F1-Score and ROC-AUC alongside accuracy.
+Because the target classes are imbalanced, F1-Score and ROC-AUC are considered alongside accuracy.
 
 ## 🏆 Model Results
 
@@ -158,7 +159,7 @@ The current evaluated results are:
 
 ### 🥇 Best Model
 
-**Random Forest** is the best overall model in the current experiment, based on the highest F1-Score and ROC-AUC.
+**Random Forest** is the best overall model in the current experiment because it has the highest F1-Score and ROC-AUC.
 
 - Accuracy: **78.03%**
 - Precision: **50.29%**
@@ -168,7 +169,7 @@ The current evaluated results are:
 
 Decision Tree and Logistic Regression provide higher recall, but lower precision and F1-Score in this experiment.
 
-## 📊 Results and Visualizations
+## 📊 Results & Visualizations
 
 ### Model Comparison
 
@@ -198,25 +199,25 @@ Decision Tree and Logistic Regression provide higher recall, but lower precision
 
 ![Random Forest ROC Curve](results/roc_curve_random_forest.png)
 
-Additional Decision Tree and Logistic Regression confusion matrices and ROC curves are available in the `results/` directory.
+Additional Decision Tree and Logistic Regression confusion matrices and ROC curves are available in `results/`.
 
 ## 🔮 Prediction
 
-The project includes a prediction script using the saved Random Forest pipeline.
+The project includes a prediction script using the trained Random Forest pipeline.
 
-Example local prediction:
+Example local prediction from the current experiment:
 
 ```text
 Prediction: Lower Risk / No Default
 Default probability: 15.45%
 ```
 
-This example demonstrates model inference only and is not intended to represent a real credit decision.
+This is an example of model inference only and must not be treated as an actual lending decision.
 
 ## 📁 Project Structure
 
 ```text
-CodeAlpha_Credit_Scoring_Model-/
+CodeAlpha_Credit_Scoring_Model/
 │
 ├── data/
 │   ├── raw/
@@ -275,8 +276,8 @@ CodeAlpha_Credit_Scoring_Model-/
 Clone the repository:
 
 ```bash
-git clone https://github.com/hk8387121-cpu/CodeAlpha_Credit_Scoring_Model-.git
-cd CodeAlpha_Credit_Scoring_Model-
+git clone https://github.com/hk8387121-cpu/CodeAlpha_Credit_Scoring_Model.git
+cd CodeAlpha_Credit_Scoring_Model
 ```
 
 Create a virtual environment:
@@ -298,11 +299,7 @@ pip install -r requirements.txt
 
 ### 1. Download and place the dataset
 
-Download the UCI dataset from:
-
-https://archive.ics.uci.edu/dataset/350/default%2Bof%2Bcredit%2Bcard%2Bclients%2Bdataset
-
-Place the downloaded Excel file inside:
+Download the UCI dataset from the official UCI page and place the Excel file inside:
 
 ```text
 data/raw/
@@ -326,7 +323,7 @@ python src\02_eda.py
 python src\03_train_models.py
 ```
 
-This trains Logistic Regression, Decision Tree, and Random Forest.
+This trains Logistic Regression, Decision Tree, and Random Forest and saves the trained pipelines locally under `models/`.
 
 ### 5. Evaluate the models
 
@@ -334,7 +331,7 @@ This trains Logistic Regression, Decision Tree, and Random Forest.
 python src\04_evaluate_models.py
 ```
 
-This regenerates the evaluation metrics, confusion matrices, ROC curves, model comparison chart, and best-model file using the same reproducible stratified split.
+This recreates the same stratified 80/20 split using `random_state=42`, evaluates the saved models, and generates the metrics, confusion matrices, ROC curves, model comparison chart, and best-model file.
 
 ### 6. Run a prediction
 
@@ -342,24 +339,26 @@ This regenerates the evaluation metrics, confusion matrices, ROC curves, model c
 python src\05_predict.py
 ```
 
-## 📦 Repository Data Policy
+## 🔐 Repository Data Policy
 
-The following local/generated files are excluded from version control:
+The repository intentionally excludes:
 
-- Raw `.xls/.xlsx` dataset
-- Processed CSV dataset
+- Raw `.xls/.xlsx` dataset files
+- Processed customer-level CSV data
 - Trained `.joblib/.pkl` model artifacts
-- Python virtual environment
-- Customer-level test split
+- Python virtual environments
+- Customer-level test/split data
 
-This keeps the repository lightweight and avoids committing dataset copies or generated model artifacts.
+The repository does include the generated **aggregate evaluation results and visualization images** needed to document the experiment.
 
 ## 🔍 Reproducibility
 
 - Train/test split: **80/20**
 - Stratification: **enabled**
 - Random state: **42**
-- Model class weighting: **balanced** for all three classifiers
+- Class weighting: **balanced** for all three classifiers
+
+The evaluation script recreates the same split instead of depending on a committed customer-level test dataset.
 
 ## 🔮 Future Enhancements
 
@@ -378,6 +377,5 @@ This project is developed for educational and internship purposes. The model out
 
 ## 👨‍💻 Author
 
-**Haresh Kumar N L**
-
+**Haresh Kumar N L**  
 B.Tech — Artificial Intelligence & Machine Learning
